@@ -34,9 +34,30 @@ const authController = {
     }
   },
 
-  // login: async (req, res) => {
-  //   // Login logic
-  // },
+  login: async (req, res) => {
+    // Login logic
+    try {
+      let { email, password, remember = false } = req.body;
+      let userExists = await User.findOne({ email: email });
+      if (userExists) {
+        bcrypt.compare(password, userExists.password, function (err, result) {
+          if (result) {
+            let payload = {
+              id: userExists._id,
+            };
+            let token = jwt.sign(payload, KEY, {
+              expiresIn: remember ? "365d" : "1h",
+            });
+            return res.status(200).json({ token, exp: remember ? "365D" : "1H" });
+          } else {
+            return res.status(400).json({ message: "wrong password" });
+          }
+        });
+      } else {
+       return res.status(404).json({ message: "no user found" });
+      }
+    } catch (error) {}
+  },
 
   // logout: async (req, res) => {
   //   // Logout logic
