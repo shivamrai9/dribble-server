@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb+srv://shivamdrebble:drebble@cluster0.k8htpbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://dribbleapp:cUKoKhuVYWxZbb1B@cluster0.5xoyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("data connected success");
     app.listen(PORT, () => {
